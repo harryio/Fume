@@ -30,6 +30,8 @@ dependencies {
 
     implementation androidLibraries
 
+    implementation libraries.mpAndroidChart
+
     testImplementation testLibraries
     androidTestImplementation androidTestLibraries
 }
