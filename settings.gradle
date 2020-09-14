@@ -1,3 +1,4 @@
+include ':repository'
 include ':bluetooth'
 include ':app'
 rootProject.name = "Fume"
