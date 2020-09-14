@@ -3,17 +3,35 @@ package io.github.sainiharry.fume
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import io.github.sainiharry.fume.repository.AqiRepositoryImpl
+import kotlinx.coroutines.Dispatchers
 
 class MainActivity : AppCompatActivity() {
 
-    private val model by viewModels<MainViewModel>()
+    private val model by viewModels<MainViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return MainViewModel(
+                    AqiRepositoryImpl(
+                        this@MainActivity,
+                        lifecycleScope,
+                        Dispatchers.IO
+                    )
+                ) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         model.aqiDataLiveData.observe(this) {
-            // TODO: 14/09/20 setup graph here 
+            // TODO: 14/09/20 setup graph here
         }
     }
 

@@ -1,9 +1,14 @@
 package io.github.sainiharry.fume.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.room.Room
 import com.plumelabs.lib.bluetooth.FlowBleClient
 import com.plumelabs.lib.bluetooth.Measure
 import com.plumelabs.lib.bluetooth.MeasurementType
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 interface AqiRepository {
 
@@ -14,13 +19,20 @@ interface AqiRepository {
     fun disconnect()
 }
 
-internal class AqiRepositoryImpl(): AqiRepository {
+class AqiRepositoryImpl(
+    context: Context,
+    private val coroutineScope: CoroutineScope,
+    private val coroutineDispatcher: CoroutineDispatcher
+) : AqiRepository {
+
+    private val aqiDao =
+        Room.databaseBuilder(context, AqiDatabase::class.java, DATABASE_NAME).build().aqiDao()
 
     private val bleClient: FlowBleClient = FlowBleClient.mockInstance()
 
     private var aqiDataMap = mutableMapOf<MeasurementType, Int>()
 
-    private var aqiData: AqiData? = null
+    private var aqiData: AqiDataEntity? = null
 
     override fun connect() {
         val flowBleSyncData = { _: FlowBleClient, syncData: List<Measure> ->
@@ -30,11 +42,12 @@ internal class AqiRepositoryImpl(): AqiRepository {
                 aqiDataMap[it.type] = it.aqi.toInt()
             }
 
+            // TODO: 14/09/20 rethink this logic
             val createNewAqiData =
                 aqiData == null || (((timestamp - aqiData!!.timestamp) / 60) >= 10)
 
             if (createNewAqiData) {
-                aqiData = AqiData(
+                aqiData = AqiDataEntity(
                     timestamp,
                     aqiDataMap[MeasurementType.VOC] ?: 0,
                     aqiDataMap[MeasurementType.NO2] ?: 0,
@@ -42,7 +55,11 @@ internal class AqiRepositoryImpl(): AqiRepository {
                     aqiDataMap[MeasurementType.PM10] ?: 0
                 )
 
-                // TODO: 14/09/20 save value to database here
+                coroutineScope.launch(coroutineDispatcher) {
+                    aqiData?.let {
+                        aqiDao.insert(it)
+                    }
+                }
             }
         }
 
@@ -51,9 +68,7 @@ internal class AqiRepositoryImpl(): AqiRepository {
         }
     }
 
-    override fun getAqiData(): LiveData<List<AqiData>> {
-        TODO("Not yet implemented")
-    }
+    override fun getAqiData() = aqiDao.getAqiData()
 
     override fun disconnect() {
         bleClient.disconnect()

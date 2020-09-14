@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -30,6 +31,10 @@ dependencies {
     implementation project(':bluetooth')
 
     implementation androidLibraries
+
+    implementation room
+
+    kapt compilers.room
 
     testImplementation testLibraries
     androidTestImplementation androidTestLibraries
