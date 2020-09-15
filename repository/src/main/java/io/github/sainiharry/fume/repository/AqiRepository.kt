@@ -54,7 +54,7 @@ class AqiRepositoryImpl(
                 if (createNewAqiData) {
                     //represents latest data for a minute-length bucket
                     val localAqiData = AqiDataEntity(
-                        timestamp,
+                        previousTimeStamp,
                         aqiDataMap[MeasurementType.VOC] ?: 0,
                         aqiDataMap[MeasurementType.NO2] ?: 0,
                         aqiDataMap[MeasurementType.PM25] ?: 0,

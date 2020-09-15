@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
+        //Add fake data set to normalize graph scale
         val fakeTopLineDataSet = LineDataSet(listOf(Entry(0f, 150f)), null).apply {
             setDrawCircleHole(false)
             setDrawCircles(false)
