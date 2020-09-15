@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 interface AqiRepository {
 
-    fun connect()
+    suspend fun connect()
 
     fun getAqiData(): LiveData<List<AqiData>>
 
@@ -34,32 +34,48 @@ class AqiRepositoryImpl(
 
     private var aqiData: AqiDataEntity? = null
 
-    override fun connect() {
+    private var previousTimeStamp: Long = 0
+
+    override suspend fun connect() {
+        aqiData = aqiDao.getLatestData()
+
         val flowBleSyncData = { _: FlowBleClient, syncData: List<Measure> ->
-            var timestamp: Long = 0
-            syncData.forEach {
-                timestamp = it.timestamp
-                aqiDataMap[it.type] = it.aqi.toInt()
-            }
+            if (syncData.isNotEmpty()) {
+                //Peek timestamp
+                val timestamp: Long = syncData[0].timestamp
+                if (previousTimeStamp == 0L) {
+                    //If this is the first data collection, only send the latest data
+                    previousTimeStamp = timestamp
+                }
 
-            // TODO: 14/09/20 rethink this logic
-            val createNewAqiData =
-                aqiData == null || (((timestamp - aqiData!!.timestamp) / 60) >= 10)
+                //when timestamp is changed dump all data into a new AqiData and start collecting data for new timestamp
+                val createNewAqiData = timestamp != previousTimeStamp
 
-            if (createNewAqiData) {
-                aqiData = AqiDataEntity(
-                    timestamp,
-                    aqiDataMap[MeasurementType.VOC] ?: 0,
-                    aqiDataMap[MeasurementType.NO2] ?: 0,
-                    aqiDataMap[MeasurementType.PM25] ?: 0,
-                    aqiDataMap[MeasurementType.PM10] ?: 0
-                )
+                if (createNewAqiData) {
+                    //represents latest data for a minute-length bucket
+                    val localAqiData = AqiDataEntity(
+                        timestamp,
+                        aqiDataMap[MeasurementType.VOC] ?: 0,
+                        aqiDataMap[MeasurementType.NO2] ?: 0,
+                        aqiDataMap[MeasurementType.PM25] ?: 0,
+                        aqiDataMap[MeasurementType.PM10] ?: 0
+                    )
 
-                coroutineScope.launch(coroutineDispatcher) {
-                    aqiData?.let {
-                        aqiDao.insert(it)
+                    val saveToDatabase =
+                        aqiData == null || ((localAqiData.timestamp - aqiData!!.timestamp) / 60 >= 10)
+                    if (saveToDatabase) {
+                        coroutineScope.launch(coroutineDispatcher) {
+                            aqiDao.insert(localAqiData)
+                            aqiData = localAqiData
+                        }
                     }
                 }
+
+                syncData.forEach {
+                    aqiDataMap[it.type] = it.aqi.toInt()
+                }
+
+                previousTimeStamp = timestamp
             }
         }
 

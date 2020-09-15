@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
                         this@MainActivity,
                         lifecycleScope,
                         Dispatchers.IO
-                    )
+                    ), Dispatchers.Main.immediate
                 ) as T
             }
         }
