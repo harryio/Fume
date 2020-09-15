@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="16dp"
+    app:cardElevation="4dp"
+    app:contentPadding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/aqi_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aqi"
+            android:textAppearance="?textAppearanceSubtitle1"
+            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceSubtitle2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/aqi_label"
+            tools:text="Mon, 7:30" />
+
+        <TextView
+            android:id="@+id/aqi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?textAppearanceHeadline2"
+            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/aqi_label"
+            tools:text="35" />
+
+        <TextView
+            android:id="@+id/pollution_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?textAppearanceSubtitle2"
+            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/aqi"
+            tools:text="Very High Pollution" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/voc_chip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/voc"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/pm25_chip"
+            app:layout_constraintEnd_toStartOf="@id/no2_chip"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/aqi_label" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/no2_chip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no2"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/voc_chip"
+            app:layout_constraintTop_toTopOf="@id/voc_chip" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/pm25_chip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/pm25"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/pm10_chip"
+            app:layout_constraintStart_toStartOf="@id/voc_chip"
+            app:layout_constraintTop_toBottomOf="@id/voc_chip" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/pm10_chip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/pm10"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pm25_chip"
+            app:layout_constraintTop_toTopOf="@id/pm25_chip" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

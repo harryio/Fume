@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Fume</string>
 
-    <string name="voc">VOC</string>
-    <string name="no2">NO2</string>
-    <string name="pm25">PM25</string>
-    <string name="pm10">PM10</string>
+    <string name="aqi">AQI</string>
+
+    <string name="voc">VOC %d</string>
+    <string name="no2">NO2 %d</string>
+    <string name="pm25">PM2.5 %d</string>
+    <string name="pm10">PM10 %d</string>
 
     <string name="low_pollution">Low Pollution</string>
     <string name="moderate_pollution">Moderate Pollution</string>
