@@ -12,4 +12,16 @@
     <string name="moderate_pollution">Moderate Pollution</string>
     <string name="high_pollution">High Pollution</string>
     <string name="very_high_pollution">Very High Pollution</string>
+    <string name="done">Done</string>
+    <string name="clear">Clear</string>
+    <string name="filters">Filters</string>
+    <string name="pollution_level">Pollution Level</string>
+
+    <string name="low">Low</string>
+    <string name="moderate">Moderate</string>
+    <string name="high">High</string>
+    <string name="very_high">Very High</string>
+    <string name="aqi_date_label">Show AQI for date</string>
+    <string name="date">Date</string>
+    <string name="filter">Filter</string>
 </resources>

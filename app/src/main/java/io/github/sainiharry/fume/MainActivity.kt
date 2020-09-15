@@ -31,6 +31,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.item_filter) {
+                FiltersFragment().show(supportFragmentManager, FiltersFragment::class.simpleName)
+                true
+            } else {
+                false
+            }
+        }
+
         val adapter = AqiAdapter()
         recycler_view.setHasFixedSize(true)
         recycler_view.adapter = adapter

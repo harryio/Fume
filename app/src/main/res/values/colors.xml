@@ -5,7 +5,8 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="white">#fff</color>
-    
+    <color name="red">#e60000</color>
+
     <color name="aqi_low">#02EA9A</color>
     <color name="aqi_moderate">#FEC630</color>
     <color name="aqi_high">#FE1414</color>
