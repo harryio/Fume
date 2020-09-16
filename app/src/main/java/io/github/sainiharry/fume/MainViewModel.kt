@@ -14,11 +14,23 @@ class MainViewModel(
 
     val aqiDataLiveData: LiveData<List<AqiData>>
 
+    val emptyTextVisible: LiveData<Boolean>
+
+    val emptyFilterResultsVisible: LiveData<Boolean>
+
     private val filtersLiveData = MutableLiveData<Filter?>()
 
     init {
         aqiDataLiveData = Transformations.switchMap(filtersLiveData) {
             aqiRepository.getAqiData(it)
+        }
+
+        emptyTextVisible = Transformations.map(aqiDataLiveData) {
+            it.isEmpty() && filtersLiveData.value == null
+        }
+
+        emptyFilterResultsVisible = Transformations.map(aqiDataLiveData) {
+            it.isEmpty() && filtersLiveData.value != null
         }
 
         viewModelScope.launch(coroutineDispatcher) {

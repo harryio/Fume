@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -61,6 +62,14 @@ class MainActivity : AppCompatActivity() {
 
         filterModel.filterLiveData.observe(this) {
             model.handleFilters(it)
+        }
+
+        model.emptyTextVisible.observe(this) {
+            empty_results_textView.isVisible = it
+        }
+
+        model.emptyFilterResultsVisible.observe(this) {
+            empty_filter_results_textView.isVisible = it
         }
     }
 }
