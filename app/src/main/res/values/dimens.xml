@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="chart_height">300dp</dimen>
+    <dimen name="spacing_xs">2dp</dimen>
+    <dimen name="spacing_s">4dp</dimen>
+    <dimen name="spacing_m">8dp</dimen>
+    <dimen name="spacing_l">16dp</dimen>
+    <dimen name="spacing_xl">32dp</dimen>
+    <dimen name="spacing_xxl">48dp</dimen>
+
+    <dimen name="dot_bulb_view_size">100dp</dimen>
 </resources>

@@ -30,11 +30,11 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="@dimen/spacing_l">
 
             <io.github.sainiharry.fume.DotBulbView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/dot_bulb_view_size"
+                android:layout_height="@dimen/dot_bulb_view_size"
                 android:layout_gravity="center"
                 app:dotColor="@color/aqi_low"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_l"
                 android:text="@string/low_pollution_info_title"
                 android:textAppearance="?textAppearanceSubtitle2" />
 
@@ -55,10 +55,10 @@
                 android:textAppearance="?textAppearanceBody2" />
 
             <io.github.sainiharry.fume.DotBulbView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/dot_bulb_view_size"
+                android:layout_height="@dimen/dot_bulb_view_size"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/spacing_xl"
                 app:dotColor="@color/aqi_moderate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_l"
                 android:text="@string/moderate_pollution_info_title"
                 android:textAppearance="?textAppearanceSubtitle2" />
 
@@ -78,10 +78,10 @@
                 android:textAppearance="?textAppearanceBody2" />
 
             <io.github.sainiharry.fume.DotBulbView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/dot_bulb_view_size"
+                android:layout_height="@dimen/dot_bulb_view_size"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/spacing_xl"
                 app:dotColor="@color/aqi_high"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +90,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_l"
                 android:text="@string/high_pollution_info_title"
                 android:textAppearance="?textAppearanceSubtitle2" />
 
@@ -101,10 +101,10 @@
                 android:textAppearance="?textAppearanceBody2" />
 
             <io.github.sainiharry.fume.DotBulbView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/dot_bulb_view_size"
+                android:layout_height="@dimen/dot_bulb_view_size"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/spacing_xl"
                 app:dotColor="@color/aqi_very_high"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_l"
                 android:text="@string/very_high_pollution_info_title"
                 android:textAppearance="?textAppearanceSubtitle2" />
 
