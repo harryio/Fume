@@ -12,25 +12,35 @@ class MainViewModel(
     coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val aqiDataLiveData: LiveData<List<AqiData>>
+    val aqiData: LiveData<List<AqiData>>
 
     val emptyTextVisible: LiveData<Boolean>
 
     val emptyFilterResultsVisible: LiveData<Boolean>
 
+    val batteryLevel: LiveData<Int>
+
+    val batteryLevelVisible: LiveData<Boolean>
+
     private val filtersLiveData = MutableLiveData<Filter?>()
 
     init {
-        aqiDataLiveData = Transformations.switchMap(filtersLiveData) {
+        aqiData = Transformations.switchMap(filtersLiveData) {
             aqiRepository.getAqiData(it)
         }
 
-        emptyTextVisible = Transformations.map(aqiDataLiveData) {
+        emptyTextVisible = Transformations.map(aqiData) {
             it.isEmpty() && filtersLiveData.value == null
         }
 
-        emptyFilterResultsVisible = Transformations.map(aqiDataLiveData) {
+        emptyFilterResultsVisible = Transformations.map(aqiData) {
             it.isEmpty() && filtersLiveData.value != null
+        }
+
+        batteryLevel = aqiRepository.getBatteryLevel()
+
+        batteryLevelVisible = Transformations.map(batteryLevel) {
+            it != null
         }
 
         viewModelScope.launch(coroutineDispatcher) {

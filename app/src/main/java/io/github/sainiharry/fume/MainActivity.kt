@@ -53,10 +53,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         val adapter = AqiAdapter()
-        recycler_view.setHasFixedSize(true)
         recycler_view.adapter = adapter
 
-        model.aqiDataLiveData.observe(this) {
+        model.aqiData.observe(this) {
             adapter.submitList(it)
         }
 
@@ -70,6 +69,14 @@ class MainActivity : AppCompatActivity() {
 
         model.emptyFilterResultsVisible.observe(this) {
             empty_filter_results_textView.isVisible = it
+        }
+
+        model.batteryLevel.observe(this) {
+            battery_level.text = getString(R.string.battery_level, it)
+        }
+
+        model.batteryLevelVisible.observe(this) {
+            battery_level.isVisible = it
         }
     }
 }

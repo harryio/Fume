@@ -2,9 +2,11 @@ package io.github.sainiharry.fume.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.plumelabs.lib.bluetooth.FlowBleClient
+import com.plumelabs.lib.bluetooth.FlowBleException
 import com.plumelabs.lib.bluetooth.Measure
 import com.plumelabs.lib.bluetooth.MeasurementType
 import kotlinx.coroutines.CoroutineDispatcher
@@ -17,6 +19,8 @@ interface AqiRepository {
     suspend fun connect()
 
     fun getAqiData(filter: Filter?): LiveData<List<AqiData>>
+
+    fun getBatteryLevel(): LiveData<Int>
 
     fun disconnect()
 }
@@ -37,6 +41,8 @@ class AqiRepositoryImpl(
     private var aqiData: AqiDataEntity? = null
 
     private var previousTimeStamp: Long = 0
+
+    private val batteryLevelLiveData = MutableLiveData<Int>()
 
     override suspend fun connect() {
         aqiData = aqiDao.getLatestData()
@@ -81,8 +87,18 @@ class AqiRepositoryImpl(
             }
         }
 
+        val batteryLevelRead = { _: FlowBleClient, batteryLevel: Int?, _: FlowBleException? ->
+            batteryLevelLiveData.value = batteryLevel
+        }
+
+        val batteryObserver = { _: FlowBleClient, batteryLevel: Int ->
+            batteryLevelLiveData.value = batteryLevel
+        }
+
         bleClient.connect { client, _ ->
             client.sync(flowBleSyncData)
+            client.readBatteryLevel(batteryLevelRead)
+            client.observeBatteryLevel(batteryObserver)
         }
     }
 
@@ -116,6 +132,8 @@ class AqiRepositoryImpl(
     override fun disconnect() {
         bleClient.disconnect()
     }
+
+    override fun getBatteryLevel(): LiveData<Int> = batteryLevelLiveData
 
     private fun getEndOfDayTimestamp(timestamp: Long): Long {
         val calendar = Calendar.getInstance()
