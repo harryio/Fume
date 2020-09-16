@@ -1,4 +1,4 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.filter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.info
 
 import android.content.Context
 import android.graphics.Canvas
@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import io.github.sainiharry.fume.R
 
 class DotBulbView : View {
 

@@ -1,4 +1,4 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,10 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import io.github.sainiharry.fume.R
+import io.github.sainiharry.fume.filter.FilterViewModel
+import io.github.sainiharry.fume.filter.FiltersFragment
+import io.github.sainiharry.fume.info.InfoActivity
 import io.github.sainiharry.fume.repository.AqiRepositoryImpl
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers

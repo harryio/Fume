@@ -1,4 +1,4 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.main
 
 import androidx.lifecycle.*
 import io.github.sainiharry.fume.repository.AqiData

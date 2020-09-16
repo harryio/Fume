@@ -1,4 +1,4 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.filter
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import io.github.sainiharry.fume.R
 import io.github.sainiharry.fume.repository.PollutionLevel
 import kotlinx.android.synthetic.main.fragment_filters.*
 import java.text.SimpleDateFormat

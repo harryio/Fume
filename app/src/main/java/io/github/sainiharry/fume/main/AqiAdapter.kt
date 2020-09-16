@@ -1,14 +1,35 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
+import io.github.sainiharry.fume.R
 import io.github.sainiharry.fume.repository.AqiData
 import java.text.SimpleDateFormat
 import java.util.*
+
+private val listDiffer = object : DiffUtil.ItemCallback<AqiData>() {
+    override fun areItemsTheSame(oldItem: AqiData, newItem: AqiData): Boolean =
+        oldItem.timestamp == newItem.timestamp
+
+    override fun areContentsTheSame(oldItem: AqiData, newItem: AqiData): Boolean =
+        oldItem == newItem
+}
+
+class AqiAdapter : ListAdapter<AqiData, AqiViewHolder>(listDiffer) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AqiViewHolder =
+        AqiViewHolder(parent)
+
+    override fun onBindViewHolder(holder: AqiViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+}
 
 class AqiViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.item_aqi, parent, false)
