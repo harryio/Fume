@@ -1,5 +1,6 @@
 package io.github.sainiharry.fume
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,11 +35,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.item_filter) {
-                FiltersFragment().show(supportFragmentManager, FiltersFragment::class.simpleName)
-                true
-            } else {
-                false
+            when (it.itemId) {
+                R.id.item_filter -> {
+                    FiltersFragment().show(
+                        supportFragmentManager,
+                        FiltersFragment::class.simpleName
+                    )
+                    true
+                }
+                R.id.item_info -> {
+                    startActivity(Intent(this, InfoActivity::class.java))
+                    true
+                }
+                else -> false
             }
         }
 

@@ -24,4 +24,15 @@
     <string name="aqi_date_label">Show AQI for date</string>
     <string name="date">Date</string>
     <string name="filter">Filter</string>
+    <string name="info">Info</string>
+
+    <string name="aqi_info">AQI Info</string>
+    <string name="low_pollution_info_title">0–20 Low Pollution</string>
+    <string name="low_pollution_info_body">The air is clear—perfect for outdoor activities! Pollution levels are under the recommended exposure thresholds set by the World Health Organisation (WHO) for one year of pollution exposure. Nothing to worry about if your lights are green!</string>
+    <string name="moderate_pollution_info_title">21–50 Moderate Pollution</string>
+    <string name="moderate_pollution_info_body">Air quality is considered acceptable, though over the recommended WHO threshold for one year. This means that, unless you have these kinds of conditions all year round, you shouldn\'t be experiencing adverse health effects. However, there may be certain health concerns for people with specific sensitivities. Always consult your physician!</string>
+    <string name="high_pollution_info_title">51–100 High Pollution</string>
+    <string name="high_pollution_info_body">The air is highly polluted—above twenty-four-hour exposure recommendations from the World Health Organisation. Everyone may start to feel adverse health effects, and those with sensitivities should take care when performing outdoor activities.</string>
+    <string name="very_high_pollution_info_title">101+ Very High Pollution</string>
+    <string name="very_high_pollution_info_body">Everyone may start to experience more serious health effects at these levels, and long term exposure constitutes a real health risk. Levels have exceeded the recommended WHO exposure threshold for one hour.</string>
 </resources>
