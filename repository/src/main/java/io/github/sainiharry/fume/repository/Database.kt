@@ -2,6 +2,7 @@ package io.github.sainiharry.fume.repository
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 
 internal const val DATABASE_NAME = "FumeDatabase"
 
@@ -21,8 +22,8 @@ internal interface AqiDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(aqiData: AqiDataEntity)
 
-    @Query("SELECT timestamp, MAX(vocAqi, no2Aqi, pm25Aqi, pm10Aqi) AS aqi, vocAqi, no2Aqi, pm25Aqi, pm10Aqi FROM AqiDataEntity ORDER BY timestamp DESC")
-    fun getAqiData(): LiveData<List<AqiData>>
+    @RawQuery(observedEntities = [AqiDataEntity::class])
+    fun getAqiData(query: SupportSQLiteQuery): LiveData<List<AqiData>>
 
     @Query("SELECT * FROM AqiDataEntity ORDER BY timestamp DESC LIMIT 1")
     suspend fun getLatestData(): AqiDataEntity?

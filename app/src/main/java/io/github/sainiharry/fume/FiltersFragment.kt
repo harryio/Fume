@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import io.github.sainiharry.fume.repository.PollutionLevel
 import kotlinx.android.synthetic.main.fragment_filters.*
 import java.text.SimpleDateFormat
 import java.util.*

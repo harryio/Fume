@@ -1,26 +1,37 @@
 package io.github.sainiharry.fume
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import io.github.sainiharry.fume.repository.AqiData
 import io.github.sainiharry.fume.repository.AqiRepository
+import io.github.sainiharry.fume.repository.Filter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val apiRepository: AqiRepository,
+    private val aqiRepository: AqiRepository,
     coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    val aqiDataLiveData = apiRepository.getAqiData()
+    val aqiDataLiveData: LiveData<List<AqiData>>
+
+    private val filtersLiveData = MutableLiveData<Filter?>()
 
     init {
+        aqiDataLiveData = Transformations.switchMap(filtersLiveData) {
+            aqiRepository.getAqiData(it)
+        }
+
         viewModelScope.launch(coroutineDispatcher) {
-            apiRepository.connect()
+            aqiRepository.connect()
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        apiRepository.disconnect()
+        aqiRepository.disconnect()
+    }
+
+    fun handleFilters(filter: Filter?) {
+        filtersLiveData.value = filter
     }
 }

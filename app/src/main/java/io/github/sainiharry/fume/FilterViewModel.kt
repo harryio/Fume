@@ -3,6 +3,8 @@ package io.github.sainiharry.fume
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.github.sainiharry.fume.repository.Filter
+import io.github.sainiharry.fume.repository.PollutionLevel
 
 class FilterViewModel : ViewModel() {
 
@@ -10,7 +12,7 @@ class FilterViewModel : ViewModel() {
 
     private var date: Long? = null
 
-    private val _filterLiveData = MutableLiveData<Filter?>()
+    private val _filterLiveData = MutableLiveData<Filter?>(null)
     val filterLiveData: LiveData<Filter?>
         get() = _filterLiveData
 

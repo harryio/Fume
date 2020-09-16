@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val filterModel by viewModels<FilterViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -46,6 +48,10 @@ class MainActivity : AppCompatActivity() {
 
         model.aqiDataLiveData.observe(this) {
             adapter.submitList(it)
+        }
+
+        filterModel.filterLiveData.observe(this) {
+            model.handleFilters(it)
         }
     }
 }

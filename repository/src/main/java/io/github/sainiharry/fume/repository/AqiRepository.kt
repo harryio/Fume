@@ -3,18 +3,20 @@ package io.github.sainiharry.fume.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.plumelabs.lib.bluetooth.FlowBleClient
 import com.plumelabs.lib.bluetooth.Measure
 import com.plumelabs.lib.bluetooth.MeasurementType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 interface AqiRepository {
 
     suspend fun connect()
 
-    fun getAqiData(): LiveData<List<AqiData>>
+    fun getAqiData(filter: Filter?): LiveData<List<AqiData>>
 
     fun disconnect()
 }
@@ -84,9 +86,43 @@ class AqiRepositoryImpl(
         }
     }
 
-    override fun getAqiData() = aqiDao.getAqiData()
+    override fun getAqiData(filter: Filter?): LiveData<List<AqiData>> {
+        val prefixQuery =
+            "SELECT timestamp, MAX(vocAqi, no2Aqi, pm25Aqi, pm10Aqi) AS aqi, vocAqi, no2Aqi, pm25Aqi, pm10Aqi FROM AqiDataEntity"
+        val suffixQuery = "ORDER BY timestamp DESC"
+        val sqliteQuery = if (filter == null) {
+            SimpleSQLiteQuery("$prefixQuery $suffixQuery", null)
+
+        } else if (filter.pollutionLevel != null && filter.date == null) {
+            SimpleSQLiteQuery("$prefixQuery ${getSQLiteQuery(filter.pollutionLevel)} $suffixQuery")
+
+        } else if (filter.pollutionLevel == null && filter.date != null) {
+            val start = filter.date / 1000
+            val end = getEndOfDayTimestamp(filter.date) / 1000
+            SimpleSQLiteQuery("$prefixQuery WHERE timestamp >= $start AND timestamp <= $end $suffixQuery")
+
+        } else if (filter.pollutionLevel == null && filter.date == null) {
+            SimpleSQLiteQuery("$prefixQuery $suffixQuery", null)
+
+        } else {
+            val start = filter.date!! / 1000
+            val end = getEndOfDayTimestamp(filter.date) / 1000
+            SimpleSQLiteQuery("$prefixQuery ${getSQLiteQuery(filter.pollutionLevel!!)} AND timestamp >= $start AND timestamp <= $end $suffixQuery")
+        }
+
+        return aqiDao.getAqiData(sqliteQuery)
+    }
 
     override fun disconnect() {
         bleClient.disconnect()
+    }
+
+    private fun getEndOfDayTimestamp(timestamp: Long): Long {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timestamp
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        return calendar.timeInMillis
     }
 }

@@ -1,4 +1,4 @@
-package io.github.sainiharry.fume
+package io.github.sainiharry.fume.repository
 
 data class Filter(val pollutionLevel: PollutionLevel?, val date: Long?) {
 
